@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,9 +34,10 @@ public class GUI extends JFrame {
 	
 	public GUI(){
 		  super("Keyboard GUI");
-	      textarea = new JTextArea(5,13);
+	      textarea = new JTextArea(1,20);
 	      //JScrollPane scrollPane = new JScrollPane(textArea);  need to work on this one
 	      textarea.setEditable(false);
+	      textarea.setFont(new Font("Serif", Font.PLAIN, 48));
 	      add(textarea, BorderLayout.NORTH);
 		  int row=3;
 		  int col=14;
@@ -55,8 +57,9 @@ public class GUI extends JFrame {
 	               public void keyPressed(KeyEvent e) {
 	                  switch (e.getKeyCode()) {
 	                  case KeyEvent.VK_UP:
-	                     if (curRow > 0)
+	                     if (curRow > 0){
 	                        buttons[curRow - 1][curCol].requestFocus();
+	                     	buttons[curRow - 1][curCol].setBackground(Color.red);}
 	                     break;
 	                  case KeyEvent.VK_DOWN:
 	                     if (curRow < buttons.length - 1)
