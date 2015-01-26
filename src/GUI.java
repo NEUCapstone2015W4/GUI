@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,12 +36,12 @@ public class GUI extends JFrame {
 	      textarea = new JTextArea(5,13);
 	      //JScrollPane scrollPane = new JScrollPane(textArea);  need to work on this one
 	      textarea.setEditable(false);
-	      add(textarea, BorderLayout.SOUTH);
+	      add(textarea, BorderLayout.NORTH);
 		  int row=3;
 		  int col=14;
 	      buttons = new JButton[row][col];
+	      btn=new JPanel(new GridLayout(3,14));
 	      for (int i = 0; i < key.length; i++) {
-	    	  btn=new JPanel(new GridLayout(4,15));
 	         for (int j = 0; j < key[i].length; j++) {
 	            final int curRow = i;
 	            final int curCol = j;
@@ -74,9 +75,9 @@ public class GUI extends JFrame {
 	                  }
 	               }
 	            });
-	            btn.add(buttons[i][j]);
+	           btn.add(buttons[i][j]);
 	         }
-	         main.add(btn, BorderLayout.NORTH);
+	         main.add(btn, BorderLayout.SOUTH);
 	      }
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        add(main);
