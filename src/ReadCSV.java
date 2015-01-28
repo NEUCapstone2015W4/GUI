@@ -9,12 +9,14 @@ public class ReadCSV {
 
 	public String xStrPath;
 	public static String[][] probArray;
-	
+		
   public static void main(String[] args) 
   {
+ // String[] bestLetters = new String[2];
   buildCSVArray();
   }
   
+  //Standard code to read in a matrix based off of an input file
 	private static void buildCSVArray()
 	{
 		probArray = new String[728][3];
@@ -66,11 +68,53 @@ public class ReadCSV {
 		
 	}
 	
-	/*
-	public String[] getBestLetters(String chosenLetter)
+	
+	public static String[] getBestLetters(String chosenLetter)
 	{
-		return 
-	}*/
+		String[] bestLetters = new String[2];
+		
+		int incrementCol1 = 0;
+		//finds the row where the character first exists
+		while(!chosenLetter.equals(probArray[incrementCol1][0]))
+		{
+			incrementCol1++;
+		}
+		
+		int bestChoice = 0;
+		int secondbestChoice = 0;
+		int checkforBest = incrementCol1;
+		//first loop to pick best letter
+		while(chosenLetter.equals(probArray[checkforBest][0]))
+		{
+			if(Double.parseDouble(probArray[checkforBest][2]) > 
+			Double.parseDouble(probArray[bestChoice][2]))
+			{
+				bestChoice = checkforBest;
+			}
+			checkforBest++;
+		}
+		checkforBest = incrementCol1;
+		//second loop to pick next best letter
+		while(chosenLetter.equals(probArray[checkforBest][0]))
+		{
+			if(
+			(Double.parseDouble(probArray[checkforBest][2]) > 
+			Double.parseDouble(probArray[secondbestChoice][2])
+			)
+			&& 
+			(Double.parseDouble(probArray[checkforBest][2]) < 
+			Double.parseDouble(probArray[bestChoice][2])
+		    ))	
+			{
+				secondbestChoice = checkforBest;
+			}
+			checkforBest++;
+		}
+		bestLetters[0] = probArray[bestChoice][1];
+		bestLetters[1] = probArray[secondbestChoice][1];
+		
+		return bestLetters;
+	}
 }
 
 
