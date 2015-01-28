@@ -1,120 +1,184 @@
-
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-public class GUI extends JFrame {
-	private JFrame j= new JFrame("Keyboard GUI");
-	private JPanel main= new JPanel();
-	private JPanel ta = new JPanel();
-	private JPanel btn=new JPanel();
-	private JTextArea textarea;
-	private JTextField textfield;
-	private JButton[][] buttons;
-	private static final String[][] key = {
-			{"A", "Z", "E", "R", "T", "Y", "U", "I","O", "P"," ","1","2","3"}, 
-	       {"Q", "S", "D", "F", "G", "H", "J", "K", "L", "M","!","4","5","6"}, 
-	       {"W", "X", "C", "V", "B","N", ",", ";", ":", "=","'","7", "8","9"}};
+
+public class GUI
+{
+
+	// ----- Fields
 	
-	public GUI(){
-		  super("Keyboard GUI");
-	      textarea = new JTextArea(1,20);
-	      //JScrollPane scrollPane = new JScrollPane(textArea);  need to work on this one
-	      textarea.setEditable(false);
-	      textarea.setFont(new Font("Serif", Font.PLAIN, 48));
-	      add(textarea, BorderLayout.NORTH);
-		  int row=3;
-		  int col=14;
-	      buttons = new JButton[row][col];
-	      btn=new JPanel(new GridLayout(3,14));
-	      for (int i = 0; i < key.length; i++) {
-	         for (int j = 0; j < key[i].length; j++) {
-	            final int curRow = i;
-	            final int curCol = j;
-	            buttons[i][j] = new JButton(key[i][j]);
-	            buttons[i][j].putClientProperty("column", j);
-	            buttons[i][j].putClientProperty("row", i);
-	            buttons[i][j].putClientProperty("key", key[i][j]);
-	            buttons[i][j].addKeyListener(enter);
-	            buttons[i][j].addKeyListener(new KeyAdapter() {
-	               @Override
-	               public void keyPressed(KeyEvent e) {
-	                  switch (e.getKeyCode()) {
-	                  case KeyEvent.VK_UP:
-	                     if (curRow > 0){
-	                        buttons[curRow - 1][curCol].requestFocus();
-	                     	buttons[curRow - 1][curCol].setBackground(Color.red);}
-	                     break;
-	                  case KeyEvent.VK_DOWN:
-	                     if (curRow < buttons.length - 1)
-	                        buttons[curRow + 1][curCol].requestFocus();
-	                     break;
-	                  case KeyEvent.VK_LEFT:
-	                     if (curCol > 0)
-	                        buttons[curRow][curCol - 1].requestFocus();
-	                     break;
-	                  case KeyEvent.VK_RIGHT:
-	                     if (curCol < buttons[curRow].length - 1)
-	                        buttons[curRow][curCol + 1].requestFocus();
-	                     break;
-	                  default:
-	                     break;
-	                  }
-	               }
-	            });
-	           btn.add(buttons[i][j]);
-	         }
-	         main.add(btn, BorderLayout.SOUTH);
-	      }
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        add(main);
-	      
-	        pack();
-	        setVisible(true);
-	        
-	        
-	   }
+	JFrame gui;
+	JPanel panel;
+	Keypad keys;
+	Entrybox text;
+	
+	// ----- Main
+	
+	public static void main(String[] args) 
+	{
+		// Create an instance of the GUI
+		
+		new GUI();
+	}
+	
+	// ----- Constructor
+	
+	public GUI()
+	{
+	
+		// Set cross-platform look & feel
+		
+		try 
+		{
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} 
+		catch (ClassNotFoundException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		catch (InstantiationException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		catch (IllegalAccessException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		catch (UnsupportedLookAndFeelException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		// Initialize fields
+		
+		gui = new JFrame();  
+		panel = new JPanel();
+		keys = new Keypad();
+		text = new Entrybox();
+		
+		// Make sure the program exits when the frame closes 
+		
+		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gui.setTitle("EOG Keyboard"); 
+		gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		// Add the various components
+		
+		gui.add(keys.getHandle(), BorderLayout.SOUTH);
+		gui.add(text.getHandle(), BorderLayout.NORTH);
+		gui.add(panel);
+		
+		// DEBUG - set up button handling. Will soon switch
+		// to USB communications
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
+		panel.getActionMap().put("moveRight", moveRight);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
+		panel.getActionMap().put("moveLeft", moveLeft);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp");
+		panel.getActionMap().put("moveUp", moveUp);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
+		panel.getActionMap().put("moveDown", moveDown);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "select");
+		panel.getActionMap().put("select", select);
+		
+		// Button handler creation
+		
+	    KeyListener actions = new KeyAdapter() 
+	    {
+		    @Override
+	        public void keyTyped(KeyEvent e) 
+		    {
+                switch (e.getKeyCode()) 
+                {
+	                case KeyEvent.VK_UP:
+	                   keys.moveUp();
+	                   break;
+	                case KeyEvent.VK_DOWN:
+	                    keys.moveDown();
+	                   break;
+	                case KeyEvent.VK_LEFT:
+	                    keys.moveLeft();
+	                   break;
+	                case KeyEvent.VK_RIGHT:
+	                    keys.moveRight();
+	                   break;
+	                case KeyEvent.VK_ENTER:
+	                    text.typeChar(keys.Press());
+	                    break;
+	                case KeyEvent.VK_BACK_SPACE:
+	                	text.clearChar();
+	                    break;
+	                case KeyEvent.VK_TAB:
+	                    text.autoComplete();
+	                    break;
+	                default:
+	                   break;
+                }
+	        }
+	    };
+	    
+	    gui.addKeyListener(actions);
+		
+		// This will center the JFrame in the middle of the screen 
+		
+		gui.setLocationRelativeTo(null);
+		
+		// Make sure the JFrame is visible 
+		
+		gui.setVisible(true); 
+	}
+	
+	// ----- GUI Actions
+	
+	private Action moveUp = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        keys.moveUp();
+	    }
+	};
+	
+	private Action moveDown = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        keys.moveDown();
+	    }
+	};
+	
+	private Action moveLeft = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        keys.moveLeft();
+	    }
+	};
+	
+	private Action moveRight = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        keys.moveRight();
+	    }
+	};
+	
+	private Action select = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        text.typeChar(keys.Press());
+	    }
+	};
 
-	   private KeyListener enter = new KeyAdapter() {
-	      @Override
-	      public void keyTyped(KeyEvent e) {
-	         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-	            ((JButton) e.getComponent()).doClick();
-	            String word;
-	            JButton btns = (JButton) e.getSource();
-	            word =(String) btns.getClientProperty("key");
-	            textarea.append(word);
-	            
-	         }
-	      }
-	   };
-	   
-	    public static void main(String[] args) {
-	        EventQueue.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                GUI guI = new GUI();
-	            }
-	        });
-	    }	   
-	   
-}//end of main class
-
-
-
+}
