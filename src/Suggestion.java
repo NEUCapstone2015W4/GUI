@@ -3,19 +3,30 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+
 import javafx.application.Application;
  
-public class ReadCSV {
+public class Suggestion {
 
-	public String xStrPath;
-	public static String[][] probArray;
+  public static String[][] probArray;
 		
-  public static void main(String[] args) 
+  public Suggestion() 
   {
- // String[] bestLetters = new String[2];
+//  String[] bestLetters = new String[2];
   buildCSVArray();
+//  bestLetters = getBestLetters("p");
+//  System.out.printf("%s, %s", bestLetters[0],bestLetters[1]);
   }
-  
+  //main for testing
+  public static void main(String[] args)
+  {
+	  Suggestion test = new Suggestion();
+	  String[] bestLetters = new String[2];
+	  
+	  bestLetters = test.Suggest("p");
+	  System.out.printf("%s, %s", bestLetters[0],bestLetters[1]);
+	  
+  }
   //Standard code to read in a matrix based off of an input file
 	private static void buildCSVArray()
 	{
@@ -69,7 +80,7 @@ public class ReadCSV {
 	}
 	
 	
-	public static String[] getBestLetters(String chosenLetter)
+	public static String[] Suggest(String chosenLetter)
 	{
 		String[] bestLetters = new String[2];
 		
