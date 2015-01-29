@@ -94,7 +94,7 @@ public class Dictionary
 			}
 		}
 		
-		return input;
+		return "";
 	}
 	
 	

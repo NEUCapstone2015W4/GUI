@@ -96,45 +96,9 @@ public class GUI
 		panel.getActionMap().put("moveDown", moveDown);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "select");
 		panel.getActionMap().put("select", select);
-		
-		// Button handler creation
-		
-	    KeyListener actions = new KeyAdapter() 
-	    {
-		    @Override
-	        public void keyTyped(KeyEvent e) 
-		    {
-                switch (e.getKeyCode()) 
-                {
-	                case KeyEvent.VK_UP:
-	                   keys.moveUp();
-	                   break;
-	                case KeyEvent.VK_DOWN:
-	                    keys.moveDown();
-	                   break;
-	                case KeyEvent.VK_LEFT:
-	                    keys.moveLeft();
-	                   break;
-	                case KeyEvent.VK_RIGHT:
-	                    keys.moveRight();
-	                   break;
-	                case KeyEvent.VK_ENTER:
-	                    text.typeChar(keys.Press());
-	                    break;
-	                case KeyEvent.VK_BACK_SPACE:
-	                	text.clearChar();
-	                    break;
-	                case KeyEvent.VK_TAB:
-	                    text.autoComplete();
-	                    break;
-	                default:
-	                   break;
-                }
-	        }
-	    };
-	    
-	    gui.addKeyListener(actions);
-		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
+		panel.getActionMap().put("autocomp", autocomp);
+
 		// This will center the JFrame in the middle of the screen 
 		
 		gui.setLocationRelativeTo(null);
@@ -178,6 +142,13 @@ public class GUI
 	    public void actionPerformed(ActionEvent e) 
 	    {
 	        text.typeChar(keys.Press());
+	    }
+	};
+	
+	private Action autocomp = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        text.autoComplete();
 	    }
 	};
 

@@ -38,7 +38,6 @@ public class Entrybox
 		// Configure GUI object
 		
 		box = new JTextArea(numLines, lineLength);
-		box.setEditable(false);
 		box.setFocusable(false);
 		box.setFont(new Font("Serif", Font.PLAIN, 48));
 	}
@@ -82,7 +81,7 @@ public class Entrybox
 		
 		// Append the new character to the buffer, advance cursor
 		
-		text.concat(c);
+		text = text.concat(c);
 		cursorPosn++;
 		
 		// If this is a space character, clear the current word. If not,
@@ -94,7 +93,7 @@ public class Entrybox
 		}
 		else
 		{
-			currWord.concat(c);
+			currWord = currWord.concat(c);
 		}
 		
 		// If the current word is more at least one character
@@ -104,7 +103,7 @@ public class Entrybox
 		if (currWord.length() >= 1)
 		{
 			
-			text.concat(dict.Guess(currWord));
+			text = text.concat(dict.Guess(currWord));
 		}
 		
 		// Update the actual GUI object, highlighting any suggested text
