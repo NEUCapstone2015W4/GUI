@@ -109,10 +109,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 				try {
 					String inputLine=input.readLine();
 					System.out.println(inputLine);
-					getChar();
-					changechar(ch);
-					ch =(char)input.read();
-					if(ch == 'r'){
+					if(inputLine.charAt(0) == 'r'){
 						System.out.println("Will move right");
 						try{
 							Robot robot= new Robot();
@@ -124,7 +121,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							e.printStackTrace();
 						}
 					}
-					if(ch == 'l'){
+					if(inputLine.charAt(0) == 'l'){
 						System.out.println("Will move left");
 						try{
 							Robot robot= new Robot();
@@ -136,7 +133,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							e.printStackTrace();
 						}
 					}
-					if(ch == 'u'){
+					if(inputLine.charAt(0) == 'u'){
 						System.out.println("Will move up");
 						try{
 							Robot robot= new Robot();
@@ -148,7 +145,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							e.printStackTrace();
 						}
 					}
-					if(ch== 'd'){
+					if(inputLine.charAt(0)== 'd'){
 						System.out.println("Will move down");
 						try{
 							Robot robot= new Robot();
@@ -161,7 +158,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}/*
-					if(ch== 'a'){
+					if(inputLine.charAt(0)== 'a'){
 						System.out.println("Enter");
 						try{
 							Robot robot= new Robot();
