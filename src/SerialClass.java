@@ -1,18 +1,37 @@
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import gnu.io.CommPortIdentifier; 
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
-import java.util.Enumeration;
 
-public class SerialClass implements SerialPortEventListener{
+import java.util.Enumeration;
+import java.util.Observable;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+public class SerialClass extends Observable implements SerialPortEventListener{
 		SerialPort serialPort;
+		public char ch;
+		public char getChar(){
+			return ch;
+		}
+		public void changechar(char ch){
+			this.ch=ch;
+			setChanged();
+			notifyObservers(ch);
+		}
+		
 	        /** The port we're normally going to use. */
 		private static final String PORT_NAMES[] = { 
 				//"/dev/tty.usbserial-A9007UX1", // Mac OS X
-	           // "/dev/ttyACM0", // Raspberry Pi
 				//"/dev/ttyUSB0", // Linux
 				"COM3", // Windows
 		};
@@ -21,20 +40,16 @@ public class SerialClass implements SerialPortEventListener{
 		* converting the bytes into characters 
 		* making the displayed results codepage independent
 		*/
-		private BufferedReader input;
+		public static BufferedReader input;
 		/** The output stream to the port */
-		private OutputStream output;
+		public static OutputStream output;
 		/** Milliseconds to block while waiting for port open */
 		private static final int TIME_OUT = 2000;
 		/** Default bits per second for COM port. */
-		private static final int DATA_RATE = 9600;
+		private static final int DATA_RATE = 115200;
 
 		public void initialize() {
-	                // the next line is for Raspberry Pi and 
-	                // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
-	                System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
-
-			CommPortIdentifier portId = null;
+	        CommPortIdentifier portId = null;
 			Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
 			//First, Find an instance of serial port as set in PORT_NAMES.
@@ -94,13 +109,78 @@ public class SerialClass implements SerialPortEventListener{
 				try {
 					String inputLine=input.readLine();
 					System.out.println(inputLine);
-				} catch (Exception e) {
+					getChar();
+					changechar(ch);
+					ch =(char)input.read();
+					if(ch == 'r'){
+						System.out.println("Will move right");
+						try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_RIGHT);
+							robot.delay(10);
+							robot.keyRelease(KeyEvent.VK_RIGHT);
+							
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					}
+					if(ch == 'l'){
+						System.out.println("Will move left");
+						try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_LEFT);
+							robot.delay(10);
+							robot.keyRelease(KeyEvent.VK_LEFT);
+							
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					}
+					if(ch == 'u'){
+						System.out.println("Will move up");
+						try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_UP);
+							robot.delay(10);
+							robot.keyRelease(KeyEvent.VK_UP);
+							
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					}
+					if(ch== 'd'){
+						System.out.println("Will move down");
+						try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_DOWN);
+							robot.delay(10);
+							robot.keyRelease(KeyEvent.VK_DOWN);
+							
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					
+					}/*
+					if(ch== 'a'){
+						System.out.println("Enter");
+						try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_ENTER);
+							robot.delay(500);
+							robot.keyRelease(KeyEvent.VK_ENTER);
+							
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					
+					}*/
+				}
+					catch (Exception e) {
 					System.err.println(e.toString());
 				}
 			}
 			// Ignore all the other eventTypes, but you should consider the other ones.
 		}
-
 		public static void main(String[] args) throws Exception {
 			SerialClass main = new SerialClass();
 			main.initialize();

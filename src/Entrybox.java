@@ -103,7 +103,7 @@ public class Entrybox
 		if (currWord.length() >= 1)
 		{
 			
-			text = text.concat(dict.Guess(currWord));
+			//text = text.concat(dict.Guess(currWord));
 		}
 		
 		// Update the actual GUI object, highlighting any suggested text

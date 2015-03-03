@@ -3,6 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -13,7 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
-public class GUI
+public class GUI extends SerialClass //implements Observer
 {
 
 	// ----- Fields
@@ -22,6 +27,7 @@ public class GUI
 	JPanel panel;
 	Keypad keys;
 	Entrybox text;
+	SerialClass obj;
 	
 	// ----- Main
 	
@@ -65,11 +71,14 @@ public class GUI
 		}
 		
 		// Initialize fields
-		
 		gui = new JFrame();  
 		panel = new JPanel();
 		keys = new Keypad();
 		text = new Entrybox();
+		obj = new SerialClass();
+		obj.initialize();
+
+		
 		
 		// Make sure the program exits when the frame closes 
 		
@@ -85,7 +94,7 @@ public class GUI
 		
 		// DEBUG - set up button handling. Will soon switch
 		// to USB communications
-		
+	
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
 		panel.getActionMap().put("moveRight", moveRight);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
@@ -99,8 +108,7 @@ public class GUI
 		panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
 		panel.getActionMap().put("autocomp", autocomp);
 
-		// This will center the JFrame in the middle of the screen 
-		
+		// This will center the JFrame in the middle of the screen 		
 		gui.setLocationRelativeTo(null);
 		
 		// Make sure the JFrame is visible 
