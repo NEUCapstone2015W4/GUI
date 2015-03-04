@@ -20,9 +20,7 @@ import javax.swing.Action;
 public class SerialClass extends Observable implements SerialPortEventListener{
 		SerialPort serialPort;
 		public char ch;
-		public char getChar(){
-			return ch;
-		}
+		public int count;
 		public void changechar(char ch){
 			this.ch=ch;
 			setChanged();
@@ -116,7 +114,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							robot.keyPress(KeyEvent.VK_RIGHT);
 							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_RIGHT);
-							
+							count  = 0;
 						}catch(AWTException e){
 							e.printStackTrace();
 						}
@@ -128,7 +126,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							robot.keyPress(KeyEvent.VK_LEFT);
 							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_LEFT);
-							
+							count = 0;
 						}catch(AWTException e){
 							e.printStackTrace();
 						}
@@ -140,7 +138,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							robot.keyPress(KeyEvent.VK_UP);
 							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_UP);
-							
+							count = 0;
 						}catch(AWTException e){
 							e.printStackTrace();
 						}
@@ -152,14 +150,15 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							robot.keyPress(KeyEvent.VK_DOWN);
 							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_DOWN);
-							
+							count = 0;
 						}catch(AWTException e){
 							e.printStackTrace();
 						}
 					
-					}/*
-					if(inputLine.charAt(0)== 'a'){
-						System.out.println("Enter");
+					}
+					if(inputLine.charAt(0)== 'i'){
+						count = count + 1;
+						if(count ==10 ){
 						try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_ENTER);
@@ -169,8 +168,9 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}catch(AWTException e){
 							e.printStackTrace();
 						}
+						}
 					
-					}*/
+					}
 				}
 					catch (Exception e) {
 					System.err.println(e.toString());
