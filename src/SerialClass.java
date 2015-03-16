@@ -159,15 +159,15 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 					if(inputLine.charAt(0)== 'i'){
 						count = count + 1;
 						if(count ==10 ){
-						try{
+							try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_ENTER);
 							robot.delay(500);
 							robot.keyRelease(KeyEvent.VK_ENTER);
 							
-						}catch(AWTException e){
-							e.printStackTrace();
-						}
+							}catch(AWTException e){
+								e.printStackTrace();
+							}
 						}
 					
 					}
@@ -177,6 +177,15 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 				}
 			}
 			// Ignore all the other eventTypes, but you should consider the other ones.
+		}
+		
+		public synchronized void write(String data){
+			 System.out.println("Sending: " + data);
+			 try {
+			 output.write(data.getBytes());
+			 } catch (Exception e) {
+			 System.out.println("Can't write to COM port");
+			 }
 		}
 		public static void main(String[] args) throws Exception {
 			SerialClass main = new SerialClass();
