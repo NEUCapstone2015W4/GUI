@@ -25,9 +25,12 @@ public class GUI extends SerialClass //implements Observer
 	
 	JFrame gui;
 	JPanel panel;
+	JPanel panelcont;
 	Keypad keys;
 	Entrybox text;
 	SerialClass obj;
+	calibration box;
+	
 	
 	// ----- Main
 	
@@ -71,12 +74,13 @@ public class GUI extends SerialClass //implements Observer
 		}
 		
 		// Initialize fields
-		gui = new JFrame();  
+		gui = new JFrame();
 		panel = new JPanel();
 		keys = new Keypad();
 		text = new Entrybox();
 		obj = new SerialClass();
 		obj.initialize();
+		box = new calibration();
 
 		
 		
@@ -87,7 +91,6 @@ public class GUI extends SerialClass //implements Observer
 		gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		// Add the various components
-		
 		gui.add(keys.getHandle(), BorderLayout.SOUTH);
 		gui.add(text.getHandle(), BorderLayout.NORTH);
 		gui.add(panel);
