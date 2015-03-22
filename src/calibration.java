@@ -26,6 +26,7 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
+		obj.write("i/r/n");
 	}
 
 	
@@ -44,7 +45,8 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 
 		g2.drawString(s, 325, 600);
 		}
-		
+	
+	
 	//keylistener to listen over the COM to direct movement for circle to move
 		@Override
 	public void keyPressed(KeyEvent e) {
