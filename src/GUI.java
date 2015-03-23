@@ -91,6 +91,7 @@ public class GUI extends SerialClass //implements Observer
 		gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		// Add the various components
+		//gui.add(box);
 		gui.add(keys.getHandle(), BorderLayout.SOUTH);
 		gui.add(text.getHandle(), BorderLayout.NORTH);
 		gui.add(panel);

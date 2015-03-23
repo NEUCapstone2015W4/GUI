@@ -14,7 +14,7 @@ import java.awt.geom.*;
 public class calibration extends JPanel implements ActionListener, KeyListener{
 	//setting a timer to wait for actions and to use to repaint the circle later
 	Timer t = new Timer(1000,this);
-
+	int count=0;
 	// open up calibration to listen to the serial
 	SerialClass obj=new SerialClass();
 	//set up parameters for circle
@@ -22,11 +22,11 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 	//set initial label for panel
 	
 	public calibration(){
-		t.start();
+		//t.start();
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-		obj.write("i/r/n");
+		obj.write("i\r\n");
 	}
 
 	
@@ -57,9 +57,11 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			int code = e.getKeyCode();
-			if (code == KeyEvent.VK_ENTER){
-				restpotential();
+			if (code == KeyEvent.VK_A){
+				nextimage();
+				//restpotential();
 			}
+			/*
 			if (code == KeyEvent.VK_UP){
 				uppotential();
 				
@@ -76,7 +78,29 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 				rightpotential();
 				
 			}
+			*/
 			}
+
+		private void nextimage() {
+			// TODO Auto-generated method stub
+			count=count+1;
+			if (count==1){
+				restpotential();
+			}
+			if (count==2){
+				uppotential();
+			}
+			if (count==3){
+				downpotential();
+			}
+			if(count==4){
+				leftpotential();
+			}
+			if(count==5){
+				rightpotential();
+			}
+		}
+
 
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -90,6 +114,7 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			// TODO Auto-generated method stub
 			//want to close out of calibration and go into GUI
 			//Need to figure out how to automate the close of the calibration
+			obj.write("ok\r\n");
 			}
 
 		private void leftpotential() {
@@ -97,10 +122,10 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			x= 900;
 			y = 500;
 			s="Please look to the right";
-			
+			repaint();
 			try {
-				Thread.sleep(3000);
-				obj.write("r/r/n");
+				Thread.sleep(5000);
+				obj.write("r\r\n");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,9 +137,10 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			x= 100;
 			y = 500;
 			s="Please look to the left";
+			repaint();
 			try {
-				Thread.sleep(3000);
-				obj.write("l/r/n");
+				Thread.sleep(5000);
+				obj.write("l\r\n");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -126,9 +152,10 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			x = 500;
 			y = 900;
 			s="Please look towards down";
+			repaint();
 			try {
-				Thread.sleep(3000);
-				obj.write("d/r/n");
+				Thread.sleep(5000);
+				obj.write("d\r\n");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,16 +167,17 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			x = 500;
 			y = 100;
 			s="Please look towards up";
+			repaint();
 			try {
-				Thread.sleep(3000);
-				obj.write("u/r/n");
+				Thread.sleep(5000);
+				obj.write("u\r\n");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		
+
 //actionlistener to redraw circle in designated spot
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -158,17 +186,16 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			
 			
 		}
-		
+
 		public static void main(String[] args) 
 		{
 			calibration box = new calibration();
+			
 			JFrame bigboy = new JFrame();
 			bigboy.add(box);
 			bigboy.setSize(1000,1000);
 			bigboy.setVisible(true);
 			bigboy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-
-
 
 }

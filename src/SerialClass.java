@@ -171,6 +171,17 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}
+					if(inputLine.charAt(0)== '1'){
+							try{
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_A);
+							robot.delay(500);
+							robot.keyRelease(KeyEvent.VK_A);
+							
+							}catch(AWTException e){
+								e.printStackTrace();
+							}
+						}
 				}
 					catch (Exception e) {
 					System.err.println(e.toString());
