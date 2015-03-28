@@ -18,12 +18,13 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
-public class GUI extends SerialClass //implements Observer
+public class GUI extends SerialClass
 {
 
 	// ----- Fields
 	
 	JFrame gui;
+	JFrame popup;
 	JPanel panel;
 	JPanel panelcont;
 	Keypad keys;
@@ -37,13 +38,12 @@ public class GUI extends SerialClass //implements Observer
 	public static void main(String[] args) 
 	{
 		// Create an instance of the GUI
-		
 		new GUI();
 	}
 	
 	// ----- Constructor
 	
-	public GUI()
+	public GUI() 
 	{
 	
 		// Set cross-platform look & feel
@@ -80,25 +80,33 @@ public class GUI extends SerialClass //implements Observer
 		text = new Entrybox();
 		obj = new SerialClass();
 		obj.initialize();
+		popup= new JFrame();
 		box = new calibration();
 
-		
+		popup.add(box);
+		popup.setSize(1000,1000);
+		popup.setTitle("Calibration Screen");
+		popup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		popup.setLocationRelativeTo(null);
+		popup.setAlwaysOnTop(true);
 		
 		// Make sure the program exits when the frame closes 
 		
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setTitle("EOG Keyboard"); 
 		gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
 		// Add the various components
 		//gui.add(box);
 		gui.add(keys.getHandle(), BorderLayout.SOUTH);
 		gui.add(text.getHandle(), BorderLayout.NORTH);
 		gui.add(panel);
 		
+
+		
 		// DEBUG - set up button handling. Will soon switch
 		// to USB communications
-	
+		box.getInputMap().put(KeyStroke.getKeyStroke("B"),"closeframe");
+		box.getActionMap().put("closeframe",closeframe);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
 		panel.getActionMap().put("moveRight", moveRight);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
@@ -118,6 +126,7 @@ public class GUI extends SerialClass //implements Observer
 		// Make sure the JFrame is visible 
 		
 		gui.setVisible(true); 
+		popup.setVisible(true);
 	}
 	
 	// ----- GUI Actions
@@ -162,6 +171,13 @@ public class GUI extends SerialClass //implements Observer
 	    {
 	        text.autoComplete();
 	    }
+	};
+
+	private Action closeframe = new AbstractAction() {
+		public void actionPerformed(ActionEvent e)
+		{
+			popup.dispose();
+		}
 	};
 
 }

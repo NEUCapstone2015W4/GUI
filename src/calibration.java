@@ -11,10 +11,11 @@ import java.awt.geom.*;
 //I went with a moving circle easier to use than drawing arrows note.  A little harder to make than I thought
 
 
-public class calibration extends JPanel implements ActionListener, KeyListener{
+public class calibration extends JPanel implements KeyListener{
 	//setting a timer to wait for actions and to use to repaint the circle later
-	Timer t = new Timer(1000,this);
+	//Timer t = new Timer(1000,this);
 	int count=0;
+	int secondrun=1;
 	// open up calibration to listen to the serial
 	SerialClass obj=new SerialClass();
 	//set up parameters for circle
@@ -26,7 +27,7 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-		obj.write("i\r\n");
+		obj.initialize();
 	}
 
 	
@@ -44,6 +45,15 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
         g2.setFont(font);
 
 		g2.drawString(s, 325, 600);
+		if (count==0){
+			try {
+				Thread.sleep(5000);
+				obj.write("i\r\n");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		}
 	
 	
@@ -115,6 +125,26 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			//want to close out of calibration and go into GUI
 			//Need to figure out how to automate the close of the calibration
 			obj.write("ok\r\n");
+			/* stuff for second run calibration
+			x=500;
+			y=500;
+			s="Please look at the center";
+			count=0;
+			repaint();
+			*/
+			if(secondrun==1){
+					Robot robot;
+					try {
+						robot = new Robot();
+						robot.keyPress(KeyEvent.VK_B);
+						robot.delay(500);
+						robot.keyRelease(KeyEvent.VK_B);
+						System.out.println("PRESSING B");
+					} catch (AWTException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
 			}
 
 		private void leftpotential() {
@@ -179,14 +209,15 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 
 
 //actionlistener to redraw circle in designated spot
-		@Override
-		public void actionPerformed(ActionEvent e) {
+		
+		/*public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			repaint();
 			
 			
 		}
-
+*/
+		/*
 		public static void main(String[] args) 
 		{
 			calibration box = new calibration();
@@ -197,5 +228,5 @@ public class calibration extends JPanel implements ActionListener, KeyListener{
 			bigboy.setVisible(true);
 			bigboy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-
+*/
 }
