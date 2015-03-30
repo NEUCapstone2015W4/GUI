@@ -20,7 +20,7 @@ public class CrossKeypad
 	private static final int rows = 9;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {"F", "C", "H", "O", "T", "N", "D", "M","O"}, 
+	   {"F", "C", "H", "O", "T", "N", "D", "M"}, 
        {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", "E","I","R","U","G","P","V","J","Q"}, 
 	};
 	
@@ -53,9 +53,15 @@ public class CrossKeypad
 				keys[i][j] = new Key(keyValues[0][i], i, j);
 				grid.add(keys[i][j].getHandle());
 				}
+				//adds horizontal column
 				else if(i == Math.floor(rows/2))
 				{
 				keys[i][j] = new Key(keyValues[1][j], i, j);
+				grid.add(keys[i][j].getHandle());
+				}
+				else
+				{
+				keys[i][j] = new Key("", i, j);
 				grid.add(keys[i][j].getHandle());
 				}
 			}
@@ -113,36 +119,43 @@ public class CrossKeypad
 		int x = cursor.x + dX;
 		int y = cursor.y + dY;
 		
-		// Wrap x
-
-		if (cursor.y != Math.floor(cols/2))
+		//case for center gives Left&Right Priority
+		if((cursor.y == Math.floor(cols/2)) && (cursor.x == Math.floor(rows/2)))
 		{
 			x = rows/2;
 		}
-		else if (x >= rows)
+		else
 		{
-			x -= rows;
-		}
-		else if (x < 0)
-		{
-			x += rows;
-		}
+			// Wrap x
 		
-		// Wrap y
-		
-		if (cursor.x != Math.floor(rows/2))
-		{
-			y = cols/2;
+			if (cursor.y != Math.floor(cols/2))
+			{
+				x = rows/2;
+			}
+			else if (x >= rows)
+			{
+				x -= rows;
+			}
+			else if (x < 0)
+			{
+				x += rows;
+			}
+			
+			// Wrap y
+			
+			if (cursor.x != Math.floor(rows/2))
+			{
+				y = cols/2;
+			}
+			else if (y >= cols)
+			{
+				y -= cols;
+			}
+			else if (y < 0)
+			{
+				y += cols;
+			}
 		}
-		else if (y >= cols)
-		{
-			y -= cols;
-		}
-		else if (y < 0)
-		{
-			y += cols;
-		}
-		
 		// Update cursor with valid position
 		
 		cursor.setLocation(x,y);
