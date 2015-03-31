@@ -18,10 +18,10 @@ public class CrossKeypad
 	
 	// ----- Local Statics
 	private static final int rows = 9;
-	private static final int cols = 18;
+	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {" ", " ", " ", " ", " ", "F", "C", "H", "O", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
-       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
+	   {" ", " ", " ", " ", " ", "F", "C", "H", "O", " ", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
+       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", " ", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
 	};
 	
 	// ----- Constructor
