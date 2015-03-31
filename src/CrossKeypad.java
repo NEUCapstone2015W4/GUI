@@ -20,7 +20,7 @@ public class CrossKeypad
 	private static final int rows = 9;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {" ", " ", " ", " ", " ", "F", "C", "H", "O", " ", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
+	   {"F", "C", "H", "O", " ", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
        {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", " ", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
 	};
 	
@@ -118,7 +118,8 @@ public class CrossKeypad
 		int y = cursor.y + dY;
 		
 		//case for center gives Left&Right Priority
-		if((cursor.y == Math.floor(cols/2)) && (cursor.x == Math.floor(rows/2)))
+		if((cursor.y == Math.floor(cols/2)) && (cursor.x == Math.floor(rows/2))
+				&& (y != Math.floor(cols/2)))
 		{
 			x = rows/2;
 		}
