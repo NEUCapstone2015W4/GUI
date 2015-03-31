@@ -28,6 +28,8 @@ public class GUI extends SerialClass
 	JPanel panel;
 	JPanel panelcont;
 	Keypad keys;
+	//CrossKeypad keys;
+	
 	Entrybox text;
 	SerialClass obj;
 	calibration box;
@@ -77,12 +79,13 @@ public class GUI extends SerialClass
 		gui = new JFrame();
 		panel = new JPanel();
 		keys = new Keypad();
+		//keys = new CrossKeypad();
 		text = new Entrybox();
 		obj = new SerialClass();
 		obj.initialize();
 		popup= new JFrame();
 		box = new calibration();
-
+		// Setting up calibration frame
 		popup.add(box);
 		popup.setSize(1000,1000);
 		popup.setTitle("Calibration Screen");
@@ -91,7 +94,6 @@ public class GUI extends SerialClass
 		popup.setAlwaysOnTop(true);
 		
 		// Make sure the program exits when the frame closes 
-		
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setTitle("EOG Keyboard"); 
 		gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -172,7 +174,7 @@ public class GUI extends SerialClass
 	        text.autoComplete();
 	    }
 	};
-
+//Close action for calibration screen
 	private Action closeframe = new AbstractAction() {
 		public void actionPerformed(ActionEvent e)
 		{

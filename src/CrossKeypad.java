@@ -44,7 +44,7 @@ public class CrossKeypad
 				//statement for dead space in the middle
 				if((j == Math.floor(cols/2)) && (i == Math.floor(rows/2)))
 				{
-				keys[i][j] = new Key("", i, j);
+				keys[i][j] = new Key(" ", i, j);
 				grid.add(keys[i][j].getHandle());	
 				}
 				//adds vertical column of letters
@@ -207,9 +207,5 @@ public class CrossKeypad
 	}
 	
 	// ----- GUI
-	
-	
-	
-	
 
 }

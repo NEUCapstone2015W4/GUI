@@ -12,29 +12,28 @@ import java.awt.geom.*;
 
 
 public class calibration extends JPanel implements KeyListener{
-	//setting a timer to wait for actions and to use to repaint the circle later
-	//Timer t = new Timer(1000,this);
+	//initalize control fields
 	int count=0;
 	int secondrun=1;
-	// open up calibration to listen to the serial
+	// open up calibration to listen to the serial port
 	SerialClass obj=new SerialClass();
 	//set up parameters for circle
 	double x = 500, y = 500;
-	//set initial label for panel
 	
+	//initializing calibration panel
 	public calibration(){
-		//t.start();
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		obj.initialize();
 	}
 
-	
+	//Setting up initial string drawn at calibration screen
 	String s="Please look at the center";
 	
 	//make circle
 	public void paint(Graphics g){
+		
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.fill(new Ellipse2D.Double(x, y, 50 , 50));
@@ -45,10 +44,14 @@ public class calibration extends JPanel implements KeyListener{
         g2.setFont(font);
 
 		g2.drawString(s, 325, 600);
+		//sending initial rest state to arduino after first circle is drawn to screen
 		if (count==0){
 			try {
 				Thread.sleep(5000);
 				obj.write("i\r\n");
+				//System.out.print("\0007");
+				//System.out.flush();
+				Toolkit.getDefaultToolkit().beep();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -71,26 +74,23 @@ public class calibration extends JPanel implements KeyListener{
 				nextimage();
 				//restpotential();
 			}
-			/*
-			if (code == KeyEvent.VK_UP){
-				uppotential();
-				
+			if (code == KeyEvent.VK_C){
+				restart();
 			}
-			if (code == KeyEvent.VK_DOWN){
-				downpotential();
-				
 			}
-			if (code == KeyEvent.VK_LEFT){
-				leftpotential();
-				
-			}
-			if (code == KeyEvent.VK_RIGHT){
-				rightpotential();
-				
-			}
-			*/
-			}
+		//restart whole calibration process if 0 is received from arduino
+		private void restart() {
+			// TODO Auto-generated method stub
+			count=0;
+			x=500;
+			y=500;
+			s="Please look at the center";
+			repaint();
+			System.out.println("Restarting because of 0 recieved");
+			
+		}
 
+		//mechanism to go to next direction in calibration process
 		private void nextimage() {
 			// TODO Auto-generated method stub
 			count=count+1;
@@ -122,8 +122,6 @@ public class calibration extends JPanel implements KeyListener{
 		//After the last 'r' is recieved should close out of panel and into GUI
 		private void rightpotential() {
 			// TODO Auto-generated method stub
-			//want to close out of calibration and go into GUI
-			//Need to figure out how to automate the close of the calibration
 			obj.write("ok\r\n");
 			/* stuff for second run calibration
 			x=500;
@@ -156,6 +154,8 @@ public class calibration extends JPanel implements KeyListener{
 			try {
 				Thread.sleep(5000);
 				obj.write("r\r\n");
+
+				Toolkit.getDefaultToolkit().beep();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -171,6 +171,8 @@ public class calibration extends JPanel implements KeyListener{
 			try {
 				Thread.sleep(5000);
 				obj.write("l\r\n");
+
+				Toolkit.getDefaultToolkit().beep();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -186,6 +188,8 @@ public class calibration extends JPanel implements KeyListener{
 			try {
 				Thread.sleep(5000);
 				obj.write("d\r\n");
+
+				Toolkit.getDefaultToolkit().beep();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -201,22 +205,14 @@ public class calibration extends JPanel implements KeyListener{
 			try {
 				Thread.sleep(5000);
 				obj.write("u\r\n");
+
+				Toolkit.getDefaultToolkit().beep();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-
-//actionlistener to redraw circle in designated spot
-		
-		/*public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			repaint();
-			
-			
-		}
-*/
 		/*
 		public static void main(String[] args) 
 		{
