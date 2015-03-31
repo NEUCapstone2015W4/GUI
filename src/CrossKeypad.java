@@ -61,7 +61,7 @@ public class CrossKeypad
 				}
 				else
 				{
-				keys[i][j] = new Key("", i, j);
+				keys[i][j] = new Key(" ", i, j);
 				grid.add(keys[i][j].getHandle());
 				}
 			}

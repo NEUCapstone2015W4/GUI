@@ -27,8 +27,8 @@ public class GUI extends SerialClass
 	JFrame popup;
 	JPanel panel;
 	JPanel panelcont;
-	Keypad keys;
-	//CrossKeypad keys;
+	//Keypad keys;
+	CrossKeypad keys;
 	
 	Entrybox text;
 	SerialClass obj;
@@ -78,8 +78,8 @@ public class GUI extends SerialClass
 		// Initialize fields
 		gui = new JFrame();
 		panel = new JPanel();
-		keys = new Keypad();
-		//keys = new CrossKeypad();
+		//keys = new Keypad();
+		keys = new CrossKeypad();
 		text = new Entrybox();
 		obj = new SerialClass();
 		obj.initialize();
