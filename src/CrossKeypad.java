@@ -18,10 +18,10 @@ public class CrossKeypad
 	
 	// ----- Local Statics
 	private static final int rows = 9;
-	private static final int cols = 19;
+	private static final int cols = 18;
 	private static final String[][] keyValues = {
-	   {"F", "C", "H", "O", "T", "N", "D", "M"}, 
-       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", "E","I","R","U","G","P","V","J","Q"}, 
+	   {" ", " ", " ", " ", " ", "F", "C", "H", "O", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
+       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
 	};
 	
 	// ----- Constructor
@@ -108,9 +108,7 @@ public class CrossKeypad
 		return keys[cursor.x][cursor.y].getValue();
 	}
 	
-	// Internal, add values to current positions. Wrap on edges.
-	// (0,0) is the top left corner. (0,rows) is the bottom left corner.
-	// (cols,0) is the top right corner, and (cols,rows) is the bottom right.
+	// Internal, add values to current positions. Wrap when in one of the arms of the cross or at the ends.
 	
 	private void movePosn(int dX, int dY)
 	{
