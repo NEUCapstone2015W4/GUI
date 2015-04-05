@@ -40,10 +40,10 @@ public class Key
 		
 		// Initialize button
 		button = new JButton(value);
-		button.setPreferredSize(new Dimension(100,100));
+		button.setPreferredSize(new Dimension(65,65));
 		button.setBackground(defaultClr);
 		button.setBorder(border);
-		button.setFont(new Font("Terminal", Font.BOLD, 48));
+		button.setFont(new Font("Terminal", Font.BOLD, 24));
 		button.setFocusable(false);
 	}
 	
@@ -85,9 +85,10 @@ public class Key
 	
 	// Set the buttons's value
 	
-	public void Set(String newVal)
+	public void setText(String newVal)
 	{
 		value = newVal;
+		button.setText(value);
 	}
 	
 	
@@ -134,6 +135,7 @@ public class Key
 	{
 		isVisible = vis;
 		button.setVisible(isVisible);
+		Draw();
 	}
 
 }

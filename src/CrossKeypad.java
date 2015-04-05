@@ -30,7 +30,7 @@ public class CrossKeypad
 	{
 		// Initialize cursor
 	
-		cursor = new Point(0,0);
+		cursor = new Point(rows/2,cols/2);
 		
 		// Initialize the GUI object, adding each key to the grid
 		
@@ -158,8 +158,6 @@ public class CrossKeypad
 		// Update cursor with valid position
 		addOptions(x,y);
 		cursor.setLocation(x,y);
-		grid.revalidate();
-		grid.repaint();
 	}
 	
 	
@@ -176,13 +174,17 @@ public class CrossKeypad
 				keys[cursor.x][cursor.y+1].setVisible(false);		
 			}
 			
+			//makes sure not to overwrite main keys going back
+			if(nextX != Math.floor(rows/2))
+			{
 			//makes next 2 keys new characters
-			keys[nextX][cursor.y-1].Set("Sel");
-			keys[nextX][cursor.y+1].Set("Aut");
+			keys[nextX][nextY-1].setText("Sel");
+			keys[nextX][nextY+1].setText("Aut");
 			
 			//makes next 2 keys visible
-			keys[nextX][cursor.y-1].setVisible(true);
-			keys[nextX][cursor.y+1].setVisible(true);
+			keys[nextX][nextY-1].setVisible(true);
+			keys[nextX][nextY+1].setVisible(true);
+			}
 		}
 		
 		//update if moving in Y direction(left,right)
@@ -195,14 +197,17 @@ public class CrossKeypad
 				keys[cursor.x+1][cursor.y].setVisible(false);
 				keys[cursor.x-1][cursor.y].setVisible(false);		
 			}
-			
+			//makes sure to not overwrite main keys going back
+			if(nextY != Math.floor(cols/2))
+			{
 			//makes next 2 keys new characters
-			keys[cursor.x+1][nextY].Set("Sel");
-			keys[cursor.x-1][nextY].Set("Aut");
+			keys[nextX+1][nextY].setText("Aut");
+			keys[nextX-1][nextY].setText("Sel");
 			
 			//makes next 2 keys visible
-			keys[cursor.x+1][nextY].setVisible(true);
-			keys[cursor.x-1][nextY].setVisible(true);
+			keys[nextX+1][nextY].setVisible(true);
+			keys[nextX-1][nextY].setVisible(true);
+			}
 		}
 	}
 	
