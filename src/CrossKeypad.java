@@ -62,13 +62,13 @@ public class CrossKeypad
 				else
 				{
 				keys[i][j] = new Key(" ", i, j);
+				keys[i][j].setVisible(false);
 				grid.add(keys[i][j].getHandle());
 				}
 			}
 		}
 		
 		// Select the initial key
-		//TODO select [rows/2][cols/2]
 		keys[rows/2][cols/2].Select();
 	}
 	
@@ -116,7 +116,7 @@ public class CrossKeypad
 		
 		int x = cursor.x + dX;
 		int y = cursor.y + dY;
-		
+
 		//case for center gives Left&Right Priority
 		if((cursor.y == Math.floor(cols/2)) && (cursor.x == Math.floor(rows/2))
 				&& (y != Math.floor(cols/2)))
@@ -156,55 +156,54 @@ public class CrossKeypad
 			}
 		}
 		// Update cursor with valid position
-		
+		addOptions(x,y);
 		cursor.setLocation(x,y);
-		
-		//TODO add display of 2 new boxes on LR for vert traversal & UD for horiz traversal
-		//TODO figure out how to display these new boxes
+		grid.revalidate();
+		grid.repaint();
 	}
 	
-	//Adds type and auto-complete options to either side of a selected letter
-	public void selectionOptions()
+	
+	private void addOptions(int nextX, int nextY)
 	{
-		//conditional to ignore center
-		if((cursor.y != Math.floor(cols/2)) && (cursor.x != Math.floor(rows/2)))
+		//update if moving in X direction(up,down)
+		if(nextX != cursor.x)
 		{
-			//adds selection options if moving along the vertical axis
-			if((cursor.x != Math.floor(rows/2)) && (cursor.y == Math.floor(cols/2)))
+			//makes sure to not delete main keys
+			if(cursor.x != Math.floor(rows/2))
 			{
-				//clears previous keys
-				grid.remove(keys[cursor.x][cursor.y-1].getHandle());
-				grid.remove(keys[cursor.x][cursor.y+1].getHandle());
-				
-				//adds select option
-				keys[cursor.x][cursor.y-1] = new Key("Sel", cursor.x, cursor.y-1);
-				grid.add(keys[cursor.x][cursor.y-1].getHandle());
-				
-				//adds autocomplete option
-				keys[cursor.x][cursor.y+1] = new Key("Aut", cursor.x, cursor.y+1);
-				grid.add(keys[cursor.x][cursor.y+1].getHandle());
+				//makes previous 2 options invisible
+				keys[cursor.x][cursor.y-1].setVisible(false);
+				keys[cursor.x][cursor.y+1].setVisible(false);		
 			}
 			
-			//adds selection options if moving along the horizontal axis
-			if((cursor.x == Math.floor(rows/2)) && (cursor.y != Math.floor(cols/2)))
-			{
-				//clears previous keys
-				grid.remove(keys[cursor.x-1][cursor.y].getHandle());
-				grid.remove(keys[cursor.x+1][cursor.y].getHandle());
-				
-				//adds select option
-				keys[cursor.x-1][cursor.y] = new Key("Sel", cursor.x-1, cursor.y);
-				grid.add(keys[cursor.x-1][cursor.y].getHandle());
-				
-				//adds autocomplete option
-				keys[cursor.x+1][cursor.y] = new Key("Aut", cursor.x+1, cursor.y);
-				grid.add(keys[cursor.x+1][cursor.y].getHandle());
-			}
+			//makes next 2 keys new characters
+			keys[nextX][cursor.y-1].Set("Sel");
+			keys[nextX][cursor.y+1].Set("Aut");
+			
+			//makes next 2 keys visible
+			keys[nextX][cursor.y-1].setVisible(true);
+			keys[nextX][cursor.y+1].setVisible(true);
 		}
-		//updates grid, might be best to do this elsewhere
-		grid.revalidate();
-		//should technically be referencing Jframe
-		grid.repaint();
+		
+		//update if moving in Y direction(left,right)
+		if(nextY != cursor.y)
+		{
+			//makes sure to not delete main keys
+			if(cursor.y != Math.floor(cols/2))
+			{
+				//makes previous 2 options invisible
+				keys[cursor.x+1][cursor.y].setVisible(false);
+				keys[cursor.x-1][cursor.y].setVisible(false);		
+			}
+			
+			//makes next 2 keys new characters
+			keys[cursor.x+1][nextY].Set("Sel");
+			keys[cursor.x-1][nextY].Set("Aut");
+			
+			//makes next 2 keys visible
+			keys[cursor.x+1][nextY].setVisible(true);
+			keys[cursor.x-1][nextY].setVisible(true);
+		}
 	}
 	
 	// Move up, wrapping handled. Changes the color of the

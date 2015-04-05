@@ -125,10 +125,11 @@ public class GUI extends SerialClass
 		// This will center the JFrame in the middle of the screen 		
 		gui.setLocationRelativeTo(null);
 		
-		// Make sure the JFrame is visible 
 		
+		// Make sure the JFrame is visible 
 		gui.setVisible(true); 
 		popup.setVisible(true);
+		
 	}
 	
 	// ----- GUI Actions

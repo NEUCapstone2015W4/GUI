@@ -16,6 +16,7 @@ public class Key
 	
 	private String value;		// Associated value
 	private Boolean isActive;	// Is the key selected
+	private Boolean isVisible;  // Is the key a used usable
 	private Point posn;			// Position in a grid
 	private JButton button;		// Button object
 	
@@ -35,6 +36,7 @@ public class Key
 		posn = new Point(x,y);
 		value = val.toUpperCase().substring(0,1);
 		isActive = false;
+		isVisible = true;
 		
 		// Initialize button
 		button = new JButton(value);
@@ -54,7 +56,7 @@ public class Key
 		
 		return value;
 	}
-	
+
 	// Get the selection status
 	
 	public Boolean isSelected()
@@ -80,6 +82,14 @@ public class Key
 	}
 	
 	// ----- Set
+	
+	// Set the buttons's value
+	
+	public void Set(String newVal)
+	{
+		value = newVal;
+	}
+	
 	
 	// Select the button
 	
@@ -118,6 +128,12 @@ public class Key
 			button.setBackground(defaultClr);
 			button.repaint();
 		}
+	}
+	
+	public void setVisible(Boolean vis)
+	{
+		isVisible = vis;
+		button.setVisible(isVisible);
 	}
 
 }
