@@ -20,7 +20,7 @@ public class CrossKeypad
 	private static final int rows = 9;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {"F", "C", "H", "O", " ", "T", "N", "D", "M", " ", " ", " ", " ", " "}, 
+	   {"F", "C", "H", "O", " ", "T", "N", "D", "M"}, 
        {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", " ", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
 	};
 	
@@ -163,7 +163,51 @@ public class CrossKeypad
 		//TODO figure out how to display these new boxes
 	}
 	
-	// Move left, wrapping handled. Changes the color of the
+	//Adds type and auto-complete options to either side of a selected letter
+	public void selectionOptions()
+	{
+		//conditional to ignore center
+		if((cursor.y != Math.floor(cols/2)) && (cursor.x != Math.floor(rows/2)))
+		{
+			//adds selection options if moving along the vertical axis
+			if((cursor.x != Math.floor(rows/2)) && (cursor.y == Math.floor(cols/2)))
+			{
+				//clears previous keys
+				grid.remove(keys[cursor.x][cursor.y-1].getHandle());
+				grid.remove(keys[cursor.x][cursor.y+1].getHandle());
+				
+				//adds select option
+				keys[cursor.x][cursor.y-1] = new Key("Sel", cursor.x, cursor.y-1);
+				grid.add(keys[cursor.x][cursor.y-1].getHandle());
+				
+				//adds autocomplete option
+				keys[cursor.x][cursor.y+1] = new Key("Aut", cursor.x, cursor.y+1);
+				grid.add(keys[cursor.x][cursor.y+1].getHandle());
+			}
+			
+			//adds selection options if moving along the horizontal axis
+			if((cursor.x == Math.floor(rows/2)) && (cursor.y != Math.floor(cols/2)))
+			{
+				//clears previous keys
+				grid.remove(keys[cursor.x-1][cursor.y].getHandle());
+				grid.remove(keys[cursor.x+1][cursor.y].getHandle());
+				
+				//adds select option
+				keys[cursor.x-1][cursor.y] = new Key("Sel", cursor.x-1, cursor.y);
+				grid.add(keys[cursor.x-1][cursor.y].getHandle());
+				
+				//adds autocomplete option
+				keys[cursor.x+1][cursor.y] = new Key("Aut", cursor.x+1, cursor.y);
+				grid.add(keys[cursor.x+1][cursor.y].getHandle());
+			}
+		}
+		//updates grid, might be best to do this elsewhere
+		grid.revalidate();
+		//should technically be referencing Jframe
+		grid.repaint();
+	}
+	
+	// Move up, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
@@ -174,7 +218,7 @@ public class CrossKeypad
 		getCurrentKey().Select();
 	}
 	
-	// Move right, wrapping handled. Changes the color of the
+	// Move down, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
@@ -185,7 +229,7 @@ public class CrossKeypad
 		getCurrentKey().Select();
 	}
 	
-	// Move up, wrapping handled. Changes the color of the
+	// Move left, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
@@ -196,7 +240,7 @@ public class CrossKeypad
 		getCurrentKey().Select();
 	}
 	
-	// Move up, wrapping handled. Changes the color of the
+	// Move right, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
