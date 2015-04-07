@@ -20,8 +20,8 @@ public class CrossKeypad
 	private static final int rows = 9;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {"F", "C", "H", "O", " ", "T", "N", "D", "M"}, 
-       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", " ", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
+	   {"N", "P", "B", "I", " ", "A", "O", "M", "L"}, 
+       {"X", "Q", "K", "U", "G", "R", "F", "H", "S", " ", "T", "W", "C", "D", "E", "Y", "V", "J", "Z"}, 
 	};
 	
 	// ----- Constructor
@@ -232,30 +232,17 @@ public class CrossKeypad
 	{ 
 		String nextGrid[] = sugObject.returnList(chosenStr);
 		
-		int posInChosenStr = 12;
+		//Hard coding vertical elements
+		keys[0][(int)Math.floor(cols/2)].setText(nextGrid[12]);
+		keys[1][(int)Math.floor(cols/2)].setText(nextGrid[8]);
+		keys[2][(int)Math.floor(cols/2)].setText(nextGrid[4]);
+		keys[3][(int)Math.floor(cols/2)].setText(nextGrid[0]);
 		
-		//builds vertical elements of array
-		for(int x = 0; x < rows; x++)
-		{
-			//sets new value but not in middle
-			if(x != Math.floor(rows/2))
-			{
-				keys[x][(int)Math.floor(cols/2)].setText(nextGrid[posInChosenStr]);
-			}
-			//updates position variable to stride through letter list properly
-			if(x < Math.floor(rows/2))
-			{	
-				posInChosenStr -= 4;
-				if(posInChosenStr == 0)
-				{
-					posInChosenStr = 2;
-				}
-			}
-			if(x > Math.floor(cols/2))
-			{
-				posInChosenStr += 4;
-			}
-		}
+		keys[5][(int)Math.floor(cols/2)].setText(nextGrid[2]);
+		keys[6][(int)Math.floor(cols/2)].setText(nextGrid[6]);
+		keys[7][(int)Math.floor(cols/2)].setText(nextGrid[10]);
+		keys[8][(int)Math.floor(cols/2)].setText(nextGrid[14]);
+		
 		
 		//hard codes horizontal elements of array due to odd structure
 		keys[(int)Math.floor(rows/2)][0].setText(nextGrid[25]);
@@ -278,8 +265,25 @@ public class CrossKeypad
 		keys[(int)Math.floor(rows/2)][18].setText(nextGrid[24]);
 	}
 	
-	// Handles reset back to center position
-	
+	// Handles reset back to center position and redrawing
+	public void onSelect()
+	{
+		
+		redraw(Press());
+		getCurrentKey().UnSelect();
+		keys[rows/2][cols/2].Select();
+		cursor.setLocation(rows/2, cols/2);
+		for(int i = 0; i < rows; i++)
+		{
+			for(int j = 0; j < cols; j++)
+			{
+				if(i != Math.floor(rows/2) && j != Math.floor(cols/2))
+				{
+					keys[i][j].setVisible(false);
+				}
+			}
+		}
+	}
 	
 	// Move up, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button

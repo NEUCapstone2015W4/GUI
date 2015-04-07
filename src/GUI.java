@@ -145,6 +145,7 @@ public class GUI extends SerialClass
 	        }
 	        else{
 	        	text.typeChar(keys.Press());
+	        	keys.onSelect();
 	        }
 	    }
 	};
@@ -169,6 +170,7 @@ public class GUI extends SerialClass
 	        }
 	        else{
 	        	text.typeChar(keys.Press());
+	        	keys.onSelect();
 	        }
 	    }
 	};
