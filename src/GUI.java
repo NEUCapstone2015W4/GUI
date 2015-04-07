@@ -136,7 +136,8 @@ public class GUI extends SerialClass
 	
 	private Action moveUp = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
-	    {
+	    {	//keys returns a bool if true move the direction
+	    	//if false then do select
 	        keys.moveUp();
 	    }
 	};
