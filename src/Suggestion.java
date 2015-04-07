@@ -31,7 +31,7 @@ public class Suggestion {
   //Standard code to read in a matrix based off of an input file
 	private static void buildCSVArray()
 	{
-		probArray = new String[728][3];
+		probArray = new String[702][3];
 		
 		Scanner scanIn = null;
 		int Rowc = 0;
@@ -133,7 +133,6 @@ public class Suggestion {
 	public static String[] returnList(String chosenLetter)
 	{
 		String[] allLetters = new String[26];
-		
 		int incrementCol1 = 0;
 		//finds the row where the character first exists
 		while(!chosenLetter.equals(probArray[incrementCol1][0]))
