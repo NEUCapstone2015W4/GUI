@@ -156,6 +156,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}
+/*
 					if(inputLine.charAt(0)== 'i'){
 						count = count + 1;
 						if(count ==10 ){
@@ -171,6 +172,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}
+*/
 					if(inputLine.charAt(0)== '1'){
 							try{
 							Robot robot= new Robot();

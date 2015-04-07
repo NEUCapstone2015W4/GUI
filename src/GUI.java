@@ -117,10 +117,10 @@ public class GUI extends SerialClass
 		panel.getActionMap().put("moveUp", moveUp);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
 		panel.getActionMap().put("moveDown", moveDown);
-		panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "select");
-		panel.getActionMap().put("select", select);
-		panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
-		panel.getActionMap().put("autocomp", autocomp);
+		//panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "select");
+		//panel.getActionMap().put("select", select);
+		//panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
+		//panel.getActionMap().put("autocomp", autocomp);
 
 		// This will center the JFrame in the middle of the screen 		
 		gui.setLocationRelativeTo(null);
@@ -138,31 +138,52 @@ public class GUI extends SerialClass
 	    public void actionPerformed(ActionEvent e) 
 	    {	//keys returns a bool if true move the direction
 	    	//if false then do select
-	        keys.moveUp();
+	        if(keys.moveUp()){
+	        	
+	        }
+	        else{
+	        	text.typeChar(keys.Press());
+	        }
 	    }
 	};
 	
 	private Action moveDown = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {
-	        keys.moveDown();
+	        if(keys.moveDown()){
+	        	
+	        }
+	        else{
+	        	text.autoComplete();
+	        }
 	    }
 	};
 	
 	private Action moveLeft = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {
-	        keys.moveLeft();
+	        if(keys.moveLeft()){
+	        	
+	        }
+	        else{
+	        	text.typeChar(keys.Press());
+	        }
 	    }
 	};
 	
 	private Action moveRight = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {
-	        keys.moveRight();
+	        if(keys.moveRight()){
+	        	
+	        }
+	        else{
+	        	text.autoComplete();
+	        }
+	        
 	    }
 	};
-	
+/*	
 	private Action select = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {
@@ -176,6 +197,7 @@ public class GUI extends SerialClass
 	        text.autoComplete();
 	    }
 	};
+*/
 //Close action for calibration screen
 	private Action closeframe = new AbstractAction() {
 		public void actionPerformed(ActionEvent e)
