@@ -17,10 +17,10 @@ public class CrossKeypad
 	private JPanel grid;
 	
 	// ----- Local Statics
-	private static final int rows = 9;
+	private static final int rows = 10;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {"N", "P", "B", "I", " ", "A", "O", "M", "L"}, 
+	   {"N", "P", "B", "I", "SPC", "SPC", "A", "O", "M", "L"}, 
        {"X", "Q", "K", "U", "G", "R", "F", "H", "S", " ", "T", "W", "C", "D", "E", "Y", "V", "J", "Z"}, 
 	};
 	
@@ -43,8 +43,8 @@ public class CrossKeypad
 		{
 			for (int j=0; j<cols; j++)
 			{
-				//statement for dead space in the middle
-				if((j == Math.floor(cols/2)) && (i == Math.floor(rows/2)))
+				//statement for space key
+				if((j == Math.floor(cols/2)) && (i == Math.floor(rows/2)-1))
 				{
 				keys[i][j] = new Key(" ", i, j);
 				grid.add(keys[i][j].getHandle());	
@@ -69,6 +69,9 @@ public class CrossKeypad
 				}
 			}
 		}
+		
+		// Sets center spot to " " as it was retaining a letter due to unknown looping issue
+		keys[rows/2][cols/2].setText(" ");
 		
 		// Select the initial key
 		keys[rows/2][cols/2].Select();
@@ -238,10 +241,12 @@ public class CrossKeypad
 		keys[2][(int)Math.floor(cols/2)].setText(nextGrid[4]);
 		keys[3][(int)Math.floor(cols/2)].setText(nextGrid[0]);
 		
-		keys[5][(int)Math.floor(cols/2)].setText(nextGrid[2]);
-		keys[6][(int)Math.floor(cols/2)].setText(nextGrid[6]);
-		keys[7][(int)Math.floor(cols/2)].setText(nextGrid[10]);
-		keys[8][(int)Math.floor(cols/2)].setText(nextGrid[14]);
+		keys[4][(int)Math.floor(cols/2)].setText(" ");
+		
+		keys[6][(int)Math.floor(cols/2)].setText(nextGrid[2]);
+		keys[7][(int)Math.floor(cols/2)].setText(nextGrid[6]);
+		keys[8][(int)Math.floor(cols/2)].setText(nextGrid[10]);
+		keys[9][(int)Math.floor(cols/2)].setText(nextGrid[14]);
 		
 		
 		//hard codes horizontal elements of array due to odd structure
@@ -268,8 +273,14 @@ public class CrossKeypad
 	// Handles reset back to center position and redrawing
 	public void onSelect()
 	{
-		
+		if(Press() == " ")
+		{
+		redraw("_");
+		}
+		else
+		{
 		redraw(Press());
+		}
 		getCurrentKey().UnSelect();
 		keys[rows/2][cols/2].Select();
 		cursor.setLocation(rows/2, cols/2);
