@@ -20,8 +20,8 @@ public class CrossKeypad
 	private static final int rows = 9;
 	private static final int cols = 19;
 	private static final String[][] keyValues = {
-	   {"F", "C", "H", "O", " ", "T", "N", "D", "M"}, 
-       {"Z", "X", "K", "B", "Y", "W", "L", "S", "A", " ", "E", "I", "R", "U", "G", "P", "V", "J", "Q"}, 
+	   {"N", "P", "B", "I", " ", "A", "O", "M", "L"}, 
+       {"X", "Q", "K", "U", "G", "R", "F", "H", "S", " ", "T", "W", "C", "D", "E", "Y", "V", "J", "Z"}, 
 	};
 	
 	// ----- Constructor
@@ -278,8 +278,13 @@ public class CrossKeypad
 		keys[(int)Math.floor(rows/2)][18].setText(nextGrid[24]);
 	}
 	
-	// Handles reset back to center position
-	
+	// Handles reset back to center position and redrawing
+	public void onSelect(String chosenChar)
+	{
+		redraw(chosenChar);
+		keys[rows/2][cols/2].Select();
+		cursor.setLocation(rows/2, cols/2);
+	}
 	
 	// Move up, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
