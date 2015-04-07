@@ -11,7 +11,7 @@ public class CrossKeypad
 {
 	
 	// ----- Fields
-	
+	private Suggestion sugObject;
 	private Point cursor;
 	private Key[][] keys = new Key[rows][cols];
 	private JPanel grid;
@@ -25,12 +25,14 @@ public class CrossKeypad
 	};
 	
 	// ----- Constructor
-	
 	public CrossKeypad ()
 	{
 		// Initialize cursor
 	
 		cursor = new Point(rows/2,cols/2);
+		
+		// Initialize suggestion object so that the file read doesn't get called every time
+		sugObject = new Suggestion();
 		
 		// Initialize the GUI object, adding each key to the grid
 		
@@ -110,12 +112,16 @@ public class CrossKeypad
 	
 	// Internal, add values to current positions. Wrap when in one of the arms of the cross or at the ends.
 	
-	private void movePosn(int dX, int dY)
+	private boolean movePosn(int dX, int dY)
 	{
 		// Determine the changes
 		
 		int x = cursor.x + dX;
 		int y = cursor.y + dY;
+		
+		// Bool value for returning selection
+		
+		boolean canMove = true;
 
 		//case for center gives Left&Right Priority
 		if((cursor.y == Math.floor(cols/2)) && (cursor.x == Math.floor(rows/2))
@@ -126,9 +132,12 @@ public class CrossKeypad
 		else
 		{
 			// Wrap x
-		
 			if (cursor.y != Math.floor(cols/2))
 			{
+				if(dX != 0)
+				{
+					canMove = false;
+				}
 				x = rows/2;
 			}
 			else if (x >= rows)
@@ -144,6 +153,10 @@ public class CrossKeypad
 			
 			if (cursor.x != Math.floor(rows/2))
 			{
+				if(dY != 0)
+				{
+					canMove = false;
+				}
 				y = cols/2;
 			}
 			else if (y >= cols)
@@ -157,7 +170,10 @@ public class CrossKeypad
 		}
 		// Update cursor with valid position
 		addOptions(x,y);
+
 		cursor.setLocation(x,y);
+		
+		return canMove;
 	}
 	
 	
@@ -211,48 +227,110 @@ public class CrossKeypad
 		}
 	}
 	
+	// Recreates the keyboard based off of the last letter chosen
+	private void redraw(String chosenStr)
+	{ 
+		String nextGrid[] = sugObject.returnList(chosenStr);
+		
+		int posInChosenStr = 12;
+		
+		//builds vertical elements of array
+		for(int x = 0; x < rows; x++)
+		{
+			//sets new value but not in middle
+			if(x != Math.floor(rows/2))
+			{
+				keys[x][(int)Math.floor(cols/2)].setText(nextGrid[posInChosenStr]);
+			}
+			//updates position variable to stride through letter list properly
+			if(x < Math.floor(rows/2))
+			{	
+				posInChosenStr -= 4;
+				if(posInChosenStr == 0)
+				{
+					posInChosenStr = 2;
+				}
+			}
+			if(x > Math.floor(cols/2))
+			{
+				posInChosenStr += 4;
+			}
+		}
+		
+		//hard codes horizontal elements of array due to odd structure
+		keys[(int)Math.floor(rows/2)][0].setText(nextGrid[25]);
+		keys[(int)Math.floor(rows/2)][1].setText(nextGrid[23]);
+		keys[(int)Math.floor(rows/2)][2].setText(nextGrid[21]);
+		keys[(int)Math.floor(rows/2)][3].setText(nextGrid[19]);
+		keys[(int)Math.floor(rows/2)][4].setText(nextGrid[17]);
+		keys[(int)Math.floor(rows/2)][5].setText(nextGrid[15]);
+		keys[(int)Math.floor(rows/2)][6].setText(nextGrid[11]);
+		keys[(int)Math.floor(rows/2)][7].setText(nextGrid[7]);
+		keys[(int)Math.floor(rows/2)][8].setText(nextGrid[3]);
+		keys[(int)Math.floor(rows/2)][10].setText(nextGrid[1]);
+		keys[(int)Math.floor(rows/2)][11].setText(nextGrid[5]);
+		keys[(int)Math.floor(rows/2)][12].setText(nextGrid[9]);
+		keys[(int)Math.floor(rows/2)][13].setText(nextGrid[13]);
+		keys[(int)Math.floor(rows/2)][14].setText(nextGrid[16]);
+		keys[(int)Math.floor(rows/2)][15].setText(nextGrid[18]);
+		keys[(int)Math.floor(rows/2)][16].setText(nextGrid[20]);
+		keys[(int)Math.floor(rows/2)][17].setText(nextGrid[22]);
+		keys[(int)Math.floor(rows/2)][18].setText(nextGrid[24]);
+	}
+	
+	// Handles reset back to center position
+	
+	
 	// Move up, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
-	public void moveUp()
+	public boolean moveUp()
 	{
+		boolean canMove;
 		getCurrentKey().UnSelect();
-		movePosn(-1,0);
+		canMove = movePosn(-1,0);
 		getCurrentKey().Select();
+		return canMove;
 	}
 	
 	// Move down, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
-	public void moveDown()
+	public boolean moveDown()
 	{
+		boolean canMove;
 		getCurrentKey().UnSelect();
-		movePosn(1,0);
+		canMove = movePosn(1,0);
 		getCurrentKey().Select();
+		return canMove;
 	}
 	
 	// Move left, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
-	public void moveLeft()
+	public boolean moveLeft()
 	{
+		boolean canMove;
 		getCurrentKey().UnSelect();
-		movePosn(0,-1);
+		canMove = movePosn(0,-1);
 		getCurrentKey().Select();
+		return canMove;
 	}
 	
 	// Move right, wrapping handled. Changes the color of the
 	// previous button back to normal and set the new button
 	// to red.
 	
-	public void moveRight()
+	public boolean moveRight()
 	{
+		boolean canMove;
 		getCurrentKey().UnSelect();
-		movePosn(0,1);
+		canMove = movePosn(0,1);
 		getCurrentKey().Select();
+		return canMove;
 	}
 	
 	// ----- GUI

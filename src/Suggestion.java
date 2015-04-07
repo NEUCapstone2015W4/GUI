@@ -12,21 +12,22 @@ public class Suggestion {
 		
   public Suggestion() 
   {
-//  String[] bestLetters = new String[2];
   buildCSVArray();
-//  bestLetters = getBestLetters("p");
-//  System.out.printf("%s, %s", bestLetters[0],bestLetters[1]);
   }
   //main for testing
+  /*
   public static void main(String[] args)
   {
-	  Suggestion test = new Suggestion();
-	  String[] bestLetters = new String[2];
 	  
+	  Suggestion test = new Suggestion();
+	  
+	  String[] bestLetters = new String[2];
+	 
 	  bestLetters = test.Suggest("p");
 	  System.out.printf("%s, %s", bestLetters[0],bestLetters[1]);
 	  
   }
+  */ 
   //Standard code to read in a matrix based off of an input file
 	private static void buildCSVArray()
 	{
@@ -79,7 +80,6 @@ public class Suggestion {
 		
 	}
 	
-	
 	public static String[] Suggest(String chosenLetter)
 	{
 		String[] bestLetters = new String[2];
@@ -125,6 +125,27 @@ public class Suggestion {
 		bestLetters[1] = probArray[secondbestChoice][1];
 		
 		return bestLetters;
+	}
+	
+	
+	//returns all possible characters from each letter
+	//This assumes that there are 26 characters to grab
+	public static String[] returnList(String chosenLetter)
+	{
+		String[] allLetters = new String[26];
+		
+		int incrementCol1 = 0;
+		//finds the row where the character first exists
+		while(!chosenLetter.equals(probArray[incrementCol1][0]))
+		{
+			incrementCol1++;
+		}
+		for(int i = incrementCol1; i < incrementCol1+26; i++)
+		{
+			allLetters[i-incrementCol1] = probArray[i][1];
+		}
+		
+		return allLetters;
 	}
 }
 
