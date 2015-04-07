@@ -117,8 +117,10 @@ public class GUI extends SerialClass
 		panel.getActionMap().put("moveUp", moveUp);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
 		panel.getActionMap().put("moveDown", moveDown);
-		//panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "select");
-		//panel.getActionMap().put("select", select);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "backspace");
+		panel.getActionMap().put("backspace", backspace);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("P"),"clear");
+		panel.getActionMap().put("clear", clear);
 		//panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
 		//panel.getActionMap().put("autocomp", autocomp);
 
@@ -183,14 +185,22 @@ public class GUI extends SerialClass
 	        
 	    }
 	};
-/*	
-	private Action select = new AbstractAction() {
+
+	private Action backspace = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {
-	        text.typeChar(keys.Press());
+	        text.clearChar();
+	        obj.write("clr\r\n");
 	    }
 	};
-	
+	private Action clear = new AbstractAction() {
+	    public void actionPerformed(ActionEvent e) 
+	    {
+	        text.clearText();
+	        obj.write("clr\r\n");
+	    }
+	};
+/*	
 	private Action autocomp = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
 	    {

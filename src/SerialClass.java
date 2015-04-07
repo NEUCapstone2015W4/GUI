@@ -156,10 +156,10 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}
-/*
+
 					if(inputLine.charAt(0)== 'i'){
 						count = count + 1;
-						if(count ==10 ){
+						if(count ==30 ){
 							try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_ENTER);
@@ -170,9 +170,15 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 								e.printStackTrace();
 							}
 						}
+						if(count==50){
+							Robot robot= new Robot();
+							robot.keyPress(KeyEvent.VK_P);
+							robot.delay(500);
+							robot.keyRelease(KeyEvent.VK_P);
+						}
 					
 					}
-*/
+
 					if(inputLine.charAt(0)== '1'){
 							try{
 							Robot robot= new Robot();
