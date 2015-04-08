@@ -19,6 +19,7 @@ public class calibration extends JPanel implements KeyListener{
 	SerialClass obj=new SerialClass();
 	//set up parameters for circle
 	double x = 500, y = 500;
+	int a = 350, b =600;
 	
 	//initializing calibration panel
 	public calibration(){
@@ -43,7 +44,7 @@ public class calibration extends JPanel implements KeyListener{
         Font font = new Font("Times New Roman", Font.PLAIN, 36);
         g2.setFont(font);
 
-		g2.drawString(s, 325, 600);
+		g2.drawString(s, a, b);
 		//sending initial rest state to arduino after first circle is drawn to screen
 		if (count==0){
 			try {
@@ -85,6 +86,8 @@ public class calibration extends JPanel implements KeyListener{
 			x=500;
 			y=500;
 			s="Please look at the center";
+			a = 350;
+			b = 600;
 			repaint();
 			System.out.println("Restarting because of 0 recieved");
 			
@@ -109,6 +112,9 @@ public class calibration extends JPanel implements KeyListener{
 			if(count==5){
 				rightpotential();
 			}
+			if(count==6){
+				closeimage();
+			}
 		}
 
 
@@ -120,24 +126,48 @@ public class calibration extends JPanel implements KeyListener{
 		//Functions to change where the circle will be drawn
 		//Also used to change label contents
 		//After the last 'r' is recieved should close out of panel and into GUI
+
+		private void closeimage() {
+			// TODO Auto-generated method stub
+			
+			if(secondrun==1){
+				Robot robot;
+				try {
+					// stuff for second run calibration
+					robot = new Robot();
+					robot.delay(3000);
+					robot.keyPress(KeyEvent.VK_B);
+					robot.delay(500);
+					robot.keyRelease(KeyEvent.VK_B);
+					System.out.println("PRESSING B");
+				} catch (AWTException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+			
+		}
+
 		private void rightpotential() {
 			// TODO Auto-generated method stub
-			obj.write("ok\r\n");
-			/* stuff for second run calibration
 			x=500;
 			y=500;
-			s="Please look at the center";
-			count=0;
+			s="Finished Calibration";
 			repaint();
-			*/
+			
+			obj.write("ok\r\n");
+			obj.write("clr\r\n");
+					
 			if(secondrun==1){
 					Robot robot;
 					try {
+						// stuff for second run calibration
 						robot = new Robot();
-						robot.keyPress(KeyEvent.VK_B);
+						robot.delay(2000);
+						robot.keyPress(KeyEvent.VK_A);
 						robot.delay(500);
-						robot.keyRelease(KeyEvent.VK_B);
-						System.out.println("PRESSING B");
+						robot.keyRelease(KeyEvent.VK_A);
+						System.out.println("PRESSING A");
 					} catch (AWTException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -149,13 +179,16 @@ public class calibration extends JPanel implements KeyListener{
 			// TODO Auto-generated method stub
 			x= 900;
 			y = 500;
-			s="Please look to the right";
+			s="Please look right";
+			a = 400;
+			b = 600;
 			repaint();
 			try {
 				Thread.sleep(5000);
 				obj.write("r\r\n");
 
 				Toolkit.getDefaultToolkit().beep();
+
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -166,7 +199,9 @@ public class calibration extends JPanel implements KeyListener{
 			// TODO Auto-generated method stub
 			x= 100;
 			y = 500;
-			s="Please look to the left";
+			s="Please look left";
+			a= 400;
+			b=600;
 			repaint();
 			try {
 				Thread.sleep(5000);
@@ -183,7 +218,9 @@ public class calibration extends JPanel implements KeyListener{
 			// TODO Auto-generated method stub
 			x = 500;
 			y = 900;
-			s="Please look towards down";
+			s="Please look down";
+			a= 400;
+			b= 600;
 			repaint();
 			try {
 				Thread.sleep(5000);
@@ -200,7 +237,9 @@ public class calibration extends JPanel implements KeyListener{
 			// TODO Auto-generated method stub
 			x = 500;
 			y = 100;
-			s="Please look towards up";
+			s="Please look up";
+			a=400;
+			b=600;
 			repaint();
 			try {
 				Thread.sleep(5000);
