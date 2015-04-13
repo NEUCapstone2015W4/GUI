@@ -13,6 +13,7 @@ public class Entrybox
 	private String currWord;
 	private Dictionary dict;
 	private int cursorPosn;
+	private int initialcursorposn;
 	private JTextArea box;
 	
 	// ----- Local Statics
@@ -30,6 +31,8 @@ public class Entrybox
 		text = new String();
 		currWord = new String();
 		cursorPosn = 0;
+
+		initialcursorposn=0;
 		
 		// Initialize Dictionary
 		
@@ -78,7 +81,6 @@ public class Entrybox
 		// Erase any suggested characters
 		
 		text = text.substring(0, cursorPosn);
-		
 		// Append the new character to the buffer, advance cursor
 		
 		text = text.concat(c);
@@ -88,7 +90,7 @@ public class Entrybox
 		// add this character as well.
 		
 		if (c.equals(" "))
-		{
+		{	initialcursorposn=cursorPosn;
 			currWord = "";
 		}
 		else
@@ -174,18 +176,30 @@ public class Entrybox
 	
 	// Take the auto-complete suggestion.
 	
-	public void autoComplete()
+	public void autoComplete(String c)
 	{
+		initialcursorposn=cursorPosn;
+		
 		// Adjust the cursor so that all of the suggestion is included
-		
+		currWord=currWord.concat(c);
+		text= text.concat(currWord);
+		text = text.concat(dict.Guess(currWord));
 		cursorPosn = text.length();
+		box.setText(text);
+		currWord="";
+		System.out.println(cursorPosn);
+	}
+	public void clearSelection(){
 		
-		// Clear the current word
+		while(cursorPosn!=initialcursorposn){
+			clearChar();
+		}
 		
-		currWord = "";
-		
-		// Clear any highlights
-		
-		box.select(0,0);
+		initialcursorposn=text.length();
+	}
+	public void select(boolean a){
+		if (a){
+			initialcursorposn=text.length();
+		}
 	}
 }

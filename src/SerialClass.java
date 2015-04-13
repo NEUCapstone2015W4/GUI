@@ -178,8 +178,8 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						}
 					
 					}
-
 					if(inputLine.charAt(0)== '1'){
+							System.out.println("received a 1");
 							try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_A);
@@ -191,11 +191,23 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							}
 						}
 					if(inputLine.charAt(0)== '0'){
+						System.out.println("recieved a 0");
 						try{
 						Robot robot= new Robot();
 						robot.keyPress(KeyEvent.VK_C);
 						robot.delay(500);
 						robot.keyRelease(KeyEvent.VK_C);
+						
+						}catch(AWTException e){
+							e.printStackTrace();
+						}
+					}
+					if(inputLine == "ok"){
+						try{
+						Robot robot= new Robot();
+						robot.keyPress(KeyEvent.VK_A);
+						robot.delay(5);
+						robot.keyRelease(KeyEvent.VK_A);
 						
 						}catch(AWTException e){
 							e.printStackTrace();
@@ -217,6 +229,7 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 			 System.out.println("Can't write to COM port");
 			 }
 		}
+		/*
 		public static void main(String[] args) throws Exception {
 			SerialClass main = new SerialClass();
 			main.initialize();
@@ -230,5 +243,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 			t.start();
 			System.out.println("Started");
 		}
+		*/
 	
 }

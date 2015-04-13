@@ -25,6 +25,7 @@ public class GUI extends SerialClass
 	
 	JFrame gui;
 	JFrame popup;
+	
 	JPanel panel;
 	JPanel panelcont;
 	//Keypad keys;
@@ -142,10 +143,17 @@ public class GUI extends SerialClass
 	    	//if false then do select
 	        if(keys.moveUp()){
 	        	
+	        	text.clearSelection();
+	        	text.autoComplete(keys.Press());
+
+	        	//text.clearSelection();
+	        	
 	        }
 	        else{
+	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
+	        	text.select(true);
 	        }
 	    }
 	};
@@ -154,10 +162,17 @@ public class GUI extends SerialClass
 	    public void actionPerformed(ActionEvent e) 
 	    {
 	        if(keys.moveDown()){
+
+	        	text.clearSelection();
+	        	text.autoComplete(keys.Press());
+
+	        	//text.clearSelection();
 	        	
 	        }
 	        else{
-	        	text.autoComplete();
+	        	text.typeChar(" ");
+	        	keys.onSelect();
+	        	text.select(true);
 	        }
 	    }
 	};
@@ -166,11 +181,18 @@ public class GUI extends SerialClass
 	    public void actionPerformed(ActionEvent e) 
 	    {
 	        if(keys.moveLeft()){
-	        	
+
+	        	text.clearSelection();
+	        	text.autoComplete(keys.Press());
+
+	        	//text.clearSelection();
 	        }
 	        else{
+	        	//text.select(true);
+	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
+	        	text.select(true);
 	        }
 	    }
 	};
@@ -179,10 +201,16 @@ public class GUI extends SerialClass
 	    public void actionPerformed(ActionEvent e) 
 	    {
 	        if(keys.moveRight()){
-	        	
+
+	        	text.clearSelection();
+	        	text.autoComplete(keys.Press());
+
+	        	//text.clearSelection();
 	        }
 	        else{
-	        	text.autoComplete();
+	        	text.typeChar(" ");
+	        	keys.onSelect();
+	        	text.select(true);
 	        }
 	        
 	    }
@@ -202,14 +230,7 @@ public class GUI extends SerialClass
 	        obj.write("clr\r\n");
 	    }
 	};
-/*	
-	private Action autocomp = new AbstractAction() {
-	    public void actionPerformed(ActionEvent e) 
-	    {
-	        text.autoComplete();
-	    }
-	};
-*/
+
 //Close action for calibration screen
 	private Action closeframe = new AbstractAction() {
 		public void actionPerformed(ActionEvent e)
