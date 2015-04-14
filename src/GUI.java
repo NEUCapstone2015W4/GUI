@@ -85,7 +85,7 @@ public class GUI extends SerialClass
 		obj = new SerialClass();
 		obj.initialize();
 		popup= new JFrame();
-		box = new calibration(obj);
+		box = new calibration();
 		// Setting up calibration frame
 		popup.add(box);
 		popup.setSize(1000,1000);
@@ -153,7 +153,7 @@ public class GUI extends SerialClass
 	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
-	        	text.select(false);
+	        	text.select(true);
 	        }
 	    }
 	};
@@ -192,7 +192,7 @@ public class GUI extends SerialClass
 	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
-	        	text.select(false);
+	        	text.select(true);
 	        }
 	    }
 	};

@@ -11,9 +11,6 @@ public class Entrybox
 	
 	private String text;
 	private String currWord;
-	private String newword;
-	private int leng;
-	private int endleng;
 	private Dictionary dict;
 	private int cursorPosn;
 	private int initialcursorposn;
@@ -126,7 +123,6 @@ public class Entrybox
 		text = "";
 		currWord = "";
 		cursorPosn = 0;
-		initialcursorposn=0;
 		
 		// Update GUI object
 		
@@ -140,8 +136,8 @@ public class Entrybox
 		// If there is nothing in the buffer, stop
 		
 		if(text.length() == 0)
-		{	cursorPosn=0;
-			initialcursorposn=0;
+		{
+			
 			return;
 		}
 		
@@ -153,6 +149,7 @@ public class Entrybox
 		
 		// If it is not already empty, current word is also shaved
 		// of one character.
+		
 		if (currWord.length() != 0)
 		{
 			// Remove the character
@@ -162,14 +159,14 @@ public class Entrybox
 			// If this action has left the current word empty, populate it
 			// with the previous word in the buffer in case the user is making
 			// a longer word.
-/*
-			if (currWord.length() == 0 )
+			
+			if (currWord.length() == 0)
 			{
+				
 				currWord = text.substring(text.lastIndexOf(" "), text.length());
 			}
-*/
-	
 		}
+		
 		// TBD (ask group) try and suggest another word here??
 		
 		// Update the GUI object
@@ -180,63 +177,29 @@ public class Entrybox
 	// Take the auto-complete suggestion.
 	
 	public void autoComplete(String c)
-	{	//Takes in the char from the button and adds it to the current word
-		leng=currWord.length();
+	{
 		initialcursorposn=cursorPosn;
+		
+		// Adjust the cursor so that all of the suggestion is included
 		currWord=currWord.concat(c);
-		
-		
-		//text= text.concat(currWord);
-		//casts the contents of the words to lowercase
-		currWord=currWord.toLowerCase();
-		
-		
-		//tries to formulate the whole word 
-		
-		
-		//adds the word to the text
-		text = text.concat(currWord);
-		
-		
-		//sets the text
-		box.setText(text);
-		
-		endleng=currWord.length();
-		//moves the cursor over to the new text
+		text= text.concat(currWord);
+		text = text.concat(dict.Guess(currWord));
 		cursorPosn = text.length();
-		
+		box.setText(text);
+		currWord="";
+		System.out.println(cursorPosn);
 	}
-	
-	//method to clear selection when scrolling through buttons deletes until the past cursor position
 	public void clearSelection(){
-		if(leng==0){
-			while(cursorPosn != initialcursorposn){
-				clearChar();
-			//problem is it is clearing current word too which is a problem for individual letters
-			}
-		}
-		else{
-			while(endleng>leng){
-				clearChar();
-				endleng--;
-				
-			}
-			text=text.substring(0,cursorPosn-leng);
-			box.setText(text);
-			cursorPosn=text.length();
-			initialcursorposn=text.length();
-		}
+		
+		while(cursorPosn!=initialcursorposn){
+			clearChar();
 		}
 		
-	
+		initialcursorposn=text.length();
+	}
 	public void select(boolean a){
 		if (a){
 			initialcursorposn=text.length();
 		}
-		else{
-			initialcursorposn=text.length();
-			
-		}
 	}
-
 }

@@ -89,6 +89,7 @@ public class Dictionary
 			if (words.get(i).toString().startsWith(input))
 			{
 				// Trim off duplicate letters
+				
 				return words.get(i).substring(input.length());
 			}
 		}
