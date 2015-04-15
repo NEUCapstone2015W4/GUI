@@ -85,7 +85,7 @@ public class GUI extends SerialClass
 		obj = new SerialClass();
 		obj.initialize();
 		popup= new JFrame();
-		box = new calibration();
+		box = new calibration(obj);
 		// Setting up calibration frame
 		popup.add(box);
 		popup.setSize(1000,1000);
@@ -122,6 +122,8 @@ public class GUI extends SerialClass
 		panel.getActionMap().put("backspace", backspace);
 		panel.getInputMap().put(KeyStroke.getKeyStroke("P"),"clear");
 		panel.getActionMap().put("clear", clear);
+		panel.getInputMap().put(KeyStroke.getKeyStroke("Z"),"manclear");
+		panel.getActionMap().put("manclear", manclear);
 		//panel.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "autocomp");
 		//panel.getActionMap().put("autocomp", autocomp);
 
@@ -153,7 +155,6 @@ public class GUI extends SerialClass
 	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
-	        	text.select(true);
 	        }
 	    }
 	};
@@ -170,9 +171,9 @@ public class GUI extends SerialClass
 	        	
 	        }
 	        else{
-	        	text.typeChar(" ");
+	        	text.takeSuggestion();
 	        	keys.onSelect();
-	        	text.select(true);
+	        
 	        }
 	    }
 	};
@@ -192,7 +193,7 @@ public class GUI extends SerialClass
 	        	text.clearSelection();
 	        	text.typeChar(keys.Press());
 	        	keys.onSelect();
-	        	text.select(true);
+	       
 	        }
 	    }
 	};
@@ -208,9 +209,9 @@ public class GUI extends SerialClass
 	        	//text.clearSelection();
 	        }
 	        else{
-	        	text.typeChar(" ");
+	        	text.takeSuggestion();
 	        	keys.onSelect();
-	        	text.select(true);
+	        
 	        }
 	        
 	    }
@@ -218,16 +219,17 @@ public class GUI extends SerialClass
 
 	private Action backspace = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
-	    {
+	    {if (keys.iscenter()){
 	        text.clearChar();
-	        obj.write("clr\r\n");
+	    }
+	   
 	    }
 	};
 	private Action clear = new AbstractAction() {
 	    public void actionPerformed(ActionEvent e) 
-	    {
+	    {if(keys.iscenter()){
 	        text.clearText();
-	        obj.write("clr\r\n");
+	    }//obj.write("clr\r\n");
 	    }
 	};
 
@@ -239,4 +241,10 @@ public class GUI extends SerialClass
 		}
 	};
 
+	private Action manclear = new AbstractAction() {
+		public void actionPerformed(ActionEvent e)
+		{
+			obj.write("clr\r\n");
+		}
+	};
 }

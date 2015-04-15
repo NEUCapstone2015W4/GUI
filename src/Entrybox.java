@@ -11,9 +11,11 @@ public class Entrybox
 	
 	private String text;
 	private String currWord;
+	private String newword;
 	private Dictionary dict;
+	private int leng;
+	private int textleng;
 	private int cursorPosn;
-	private int initialcursorposn;
 	private JTextArea box;
 	
 	// ----- Local Statics
@@ -31,8 +33,6 @@ public class Entrybox
 		text = new String();
 		currWord = new String();
 		cursorPosn = 0;
-
-		initialcursorposn=0;
 		
 		// Initialize Dictionary
 		
@@ -78,9 +78,6 @@ public class Entrybox
 	
 	public void typeChar(String c)
 	{
-		// Erase any suggested characters
-		
-		text = text.substring(0, cursorPosn);
 		// Append the new character to the buffer, advance cursor
 		
 		text = text.concat(c);
@@ -89,8 +86,8 @@ public class Entrybox
 		// If this is a space character, clear the current word. If not,
 		// add this character as well.
 		
-		if (c.equals(" "))
-		{	initialcursorposn=cursorPosn;
+		if (isspace(c))
+		{	
 			currWord = "";
 		}
 		else
@@ -98,20 +95,9 @@ public class Entrybox
 			currWord = currWord.concat(c);
 		}
 		
-		// If the current word is more at least one character
-		// long, attempt to auto-complete. Since an invalid suggestion
-		// will return an empty string, always append the result.
-		
-		if (currWord.length() >= 1)
-		{
-			
-			//text = text.concat(dict.Guess(currWord));
-		}
-		
 		// Update the actual GUI object, highlighting any suggested text
 		
 		box.setText(text);
-		box.select(cursorPosn, text.length());
 	}
 	
 	// Clear the entire text buffer
@@ -137,7 +123,7 @@ public class Entrybox
 		
 		if(text.length() == 0)
 		{
-			
+			cursorPosn=0;
 			return;
 		}
 		
@@ -149,21 +135,24 @@ public class Entrybox
 		
 		// If it is not already empty, current word is also shaved
 		// of one character.
-		
 		if (currWord.length() != 0)
 		{
 			// Remove the character
 			
 			currWord = currWord.substring(0, currWord.length()-1);
+		}
+		else
+		{	
+			int index=text.lastIndexOf(" ");
 			
-			// If this action has left the current word empty, populate it
-			// with the previous word in the buffer in case the user is making
-			// a longer word.
-			
-			if (currWord.length() == 0)
+			if(index==-1)
 			{
+				currWord=text;
+			}
+			else
+			{
+				currWord = text.substring(index+1, text.length());
 				
-				currWord = text.substring(text.lastIndexOf(" "), text.length());
 			}
 		}
 		
@@ -177,29 +166,36 @@ public class Entrybox
 	// Take the auto-complete suggestion.
 	
 	public void autoComplete(String c)
-	{
-		initialcursorposn=cursorPosn;
-		
-		// Adjust the cursor so that all of the suggestion is included
-		currWord=currWord.concat(c);
-		text= text.concat(currWord);
-		text = text.concat(dict.Guess(currWord));
-		cursorPosn = text.length();
+	{	
+		String temp=currWord.concat(c);
+
+		temp=temp.toLowerCase();
+		text=text.concat(c);
+		text = text.concat(dict.Guess(temp));
+		text=text.toUpperCase();
 		box.setText(text);
-		currWord="";
-		System.out.println(cursorPosn);
+		
 	}
 	public void clearSelection(){
+		text=text.substring(0,cursorPosn);
+		box.setText(text);
+	
 		
-		while(cursorPosn!=initialcursorposn){
-			clearChar();
-		}
-		
-		initialcursorposn=text.length();
 	}
-	public void select(boolean a){
-		if (a){
-			initialcursorposn=text.length();
+
+	public void takeSuggestion(){
+		text=text.concat(" ");
+		cursorPosn=text.length();
+		currWord="";
+		
+	}
+
+	public boolean isspace(String c){
+		if(c.equals(" ")){
+		return true;
+		}
+		else{
+			return false;
 		}
 	}
 }

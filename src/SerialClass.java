@@ -112,7 +112,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_RIGHT);
-							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_RIGHT);
 							count  = 0;
 						}catch(AWTException e){
@@ -124,7 +123,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_LEFT);
-							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_LEFT);
 							count = 0;
 						}catch(AWTException e){
@@ -136,7 +134,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_UP);
-							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_UP);
 							count = 0;
 						}catch(AWTException e){
@@ -148,7 +145,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_DOWN);
-							robot.delay(10);
 							robot.keyRelease(KeyEvent.VK_DOWN);
 							count = 0;
 						}catch(AWTException e){
@@ -159,21 +155,19 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 
 					if(inputLine.charAt(0)== 'i'){
 						count = count + 1;
-						if(count ==30 ){
+						if(count ==90 ){
 							try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_ENTER);
-							robot.delay(500);
 							robot.keyRelease(KeyEvent.VK_ENTER);
 							
 							}catch(AWTException e){
 								e.printStackTrace();
 							}
 						}
-						if(count==50){
+						if(count==150){
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_P);
-							robot.delay(500);
 							robot.keyRelease(KeyEvent.VK_P);
 						}
 					
@@ -183,7 +177,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 							try{
 							Robot robot= new Robot();
 							robot.keyPress(KeyEvent.VK_A);
-							robot.delay(500);
 							robot.keyRelease(KeyEvent.VK_A);
 							
 							}catch(AWTException e){
@@ -195,7 +188,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 						Robot robot= new Robot();
 						robot.keyPress(KeyEvent.VK_C);
-						robot.delay(500);
 						robot.keyRelease(KeyEvent.VK_C);
 						
 						}catch(AWTException e){
@@ -206,7 +198,6 @@ public class SerialClass extends Observable implements SerialPortEventListener{
 						try{
 						Robot robot= new Robot();
 						robot.keyPress(KeyEvent.VK_A);
-						robot.delay(5);
 						robot.keyRelease(KeyEvent.VK_A);
 						
 						}catch(AWTException e){

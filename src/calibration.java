@@ -27,10 +27,11 @@ public class calibration extends JPanel implements KeyListener{
 	int a = 350, b =600;
 	
 	//initializing calibration panel
-	public calibration(){
+	public calibration(SerialClass o){
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
+		//obj=o;
 		obj.initialize();
 	}
 	
@@ -201,13 +202,19 @@ public class calibration extends JPanel implements KeyListener{
 		private void closeimage() {
 			// TODO Auto-generated method stub
 				Robot robot;
-				obj.write("clr\r\n");
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					obj.write("clr\r\n");
+				
 				try {
 
 					// stuff for second run calibration
 					robot = new Robot();
 					robot.keyPress(KeyEvent.VK_B);
-					robot.delay(500);
 					robot.keyRelease(KeyEvent.VK_B);
 				} catch (AWTException e) {
 					// TODO Auto-generated catch block

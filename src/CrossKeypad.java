@@ -347,7 +347,9 @@ public class CrossKeypad
 		getCurrentKey().Select();
 		return canMove;
 	}
-	
+	public Boolean iscenter(){
+		return(cursor.y==cols/2)&&(cursor.x==(rows/2));
+	}
 	// ----- GUI
 
 }
